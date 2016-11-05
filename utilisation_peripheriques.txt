@@ -1,0 +1,4 @@
+
+Liste des timers :
+
+Servo moteur ( PA1 -> TIM2_ch2)
