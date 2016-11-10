@@ -8,7 +8,7 @@ void (*Ptr_Fct2)(void);
 void (*Ptr_Fct3)(void);
 void (*Ptr_Fct4)(void);
 
-//durée en microsecondes
+//durÃ©e en microsecondes
 float Timer_1234_Init (TIM_TypeDef *timer, float duree){
 	
 	static float tempo=0;
@@ -124,17 +124,17 @@ void TIM4_IRQHandler (void)
 
 
 //initialisation de la PWM, NE PAS appeler Timer_Init avant
-//Fréquence en kHz
+//FrÃ©quence en kHz
 
 void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 {
 	static float periode=0;
 	periode=1/Freq;
 	periode=periode/1000.0;
-	// on initialise le timer en adéquation avec les parametres
+	// on initialise le timer en adÃ©quation avec les parametres
 	Timer_1234_Init (Timer, periode);
 	
-	// initialisation du port de sortie adéquat
+	// initialisation du port de sortie adÃ©quat
 		if (Timer==TIM1)
 		{
 			if (Voie == 1)
@@ -179,8 +179,8 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 			else if (Voie ==3)
 			{
 				Timer->CCMR2 |= (0x6<<4);
-				Timer->CCR3 |= Timer->ARR /2;
-				Port_IO_Init_Output( GPIOA, 2, 1);
+				Timer->CCR3 |= 0;
+				Port_IO_Init_Output( GPIOA, 1, 1);
 			}
 			else if (Voie ==4)
 			{
@@ -224,9 +224,16 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 		{
 			if (Voie == 1)
 			{
-				Timer->CCMR1 |= (0x6<<4);
-				Timer->CCR1 |= Timer->ARR /2;
-				Port_IO_Init_Output( GPIOB, 6, 1);
+				Timer->CCMR1 &= ~(0x2<<8);
+				Timer->CCMR1 |= 0x1;
+				Timer->CCMR1 |= (0x2<<8);
+				Timer->CCER &= ~0x2;
+				Timer->CCER |= 0x1<<5;
+				Timer->SMCR |= 0x5<<4;
+				Timer->SMCR |= 0x4;
+				Timer->CCER|= 0x11;
+				//Timer->CCR1 |= Timer->ARR /2;
+				Port_IO_Init_Input( GPIOB, 6, 1); //attention sale!!!
 			}
 			else if (Voie ==2)
 			{
