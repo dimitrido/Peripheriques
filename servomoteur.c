@@ -8,7 +8,7 @@
 	
 	
 	
-float pos_servomoteur(int angle, int anglemax, int anglemin,TIM_TypeDef*Timer, char Voie )  // sortie sur GPIOA.1 pour TIM2_CH2
+float pos_servomoteur(int angle, int anglemax, int anglemin,TIM_TypeDef*Timer, char Voie )  // sortie sur GPIOB.8 pour TIM4_CH3
 {	
 	static float pwm ;
 	static int delta_angle;
