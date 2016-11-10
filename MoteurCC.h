@@ -1,5 +1,8 @@
-#include "stm32f10x.h"
+#include "stm32f10x.h" // Clic droit sur stm32f10X.h et faire "open document"  pour ouvrir le fichier
+#include "clock.h"
+#include "gpio.h"
+#include "Timer1234.h"
 
-void USART_Init_Trans(USART_TypeDef * USART);
-void USART_Init_Recep(USART_TypeDef *USART);
-int USART_Send (USART_TypeDef * USART, u8 data);
+
+void MoteurCC_Init(float freqTelecommande);
+float changeDirection(float dutyCycle);
