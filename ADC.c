@@ -4,7 +4,7 @@
 
 
 
-
+//salut
 
 float Init_ADC_Single_Conv(ADC_TypeDef * ADC, int channel)
 {
@@ -23,7 +23,7 @@ float Init_ADC_Single_Conv(ADC_TypeDef * ADC, int channel)
 	ADC->SQR1 &= ~(0xF << 20); //longueur de conversion
 	
 	ADC-> SQR3 &= ~(0x1F);
-	ADC-> SQR3 |= channel;		// on choisit la chaine a utilisé dans SQ1 car single mode		
+	ADC-> SQR3 |= channel;		// on choisit la chaine a utilisÃ© dans SQ1 car single mode		
 	ADC-> CR2 |= ADC_CR2_CAL;
 	while ((ADC->CR2 & ADC_CR2_CAL)==ADC_CR2_CAL){}
 	return 1;
