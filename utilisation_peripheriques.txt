@@ -2,7 +2,8 @@
 Liste des timers :
 
 Servo moteur ( PB8 -> TIM4_ch3)
-
+PWM input (TIM4_ch1)
+Pwm out (TIM2)
 
 
 
