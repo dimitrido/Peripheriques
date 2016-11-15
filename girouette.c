@@ -25,11 +25,12 @@
 	Timer->CCER |=(0x22);
 	
 	//lancer comptage
-	 Timer->CR1 |= TIM_CR1_CEN;
+	 Timer->CR1 |=TIM_CR1_CEN;
 	
 }
 	
-	
-	
-	
+int angle_girouette(TIM_TypeDef*Timer)
+{
+	return (Timer->CNT)/4;
+}
 	
