@@ -130,7 +130,7 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 {
 	static float periode=0;
 	periode=1/Freq;
-	periode=periode/1000.0;
+	periode=periode*1000.0;
 	// on initialise le timer en adéquation avec les parametres
 	Timer_1234_Init (Timer, periode);
 	
@@ -179,8 +179,8 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 			else if (Voie ==3)
 			{
 				Timer->CCMR2 |= (0x6<<4);
-				Timer->CCR3 |= 0;
-				Port_IO_Init_Output( GPIOA, 1, 1);
+				Timer->CCR3 |= Timer->ARR /2;
+				Port_IO_Init_Output( GPIOA, 2, 1);
 			}
 			else if (Voie ==4)
 			{
@@ -224,16 +224,9 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 		{
 			if (Voie == 1)
 			{
-				Timer->CCMR1 &= ~(0x2<<8);
-				Timer->CCMR1 |= 0x1;
-				Timer->CCMR1 |= (0x2<<8);
-				Timer->CCER &= ~0x2;
-				Timer->CCER |= 0x1<<5;
-				Timer->SMCR |= 0x5<<4;
-				Timer->SMCR |= 0x4;
-				Timer->CCER|= 0x11;
-				//Timer->CCR1 |= Timer->ARR /2;
-				Port_IO_Init_Input( GPIOB, 6, 1); //attention sale!!!
+				Timer->CCMR1 |= (0x6<<4);
+				Timer->CCR1 |= Timer->ARR /2;
+				Port_IO_Init_Output( GPIOB, 6, 1);
 			}
 			else if (Voie ==2)
 			{
@@ -355,7 +348,8 @@ void Set_duty_cycle( TIM_TypeDef*Timer, char Voie, float Duty_cycle)
 			else if (Voie ==3)
 			{
 			
-				Timer->CCR3 = (int)(Timer->ARR *(Duty_cycle/100));
+				Timer->CCER |=(0x1<<8);
+				Timer->CCR3 = (int)((float)(Timer->ARR *(Duty_cycle/100)));
 			
 			}
 			else if (Voie ==4)
