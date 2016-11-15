@@ -3,4 +3,4 @@
 #include "gpio.h"
 
 void init_girouette(TIM_TypeDef*Timer);
-int angle_girouette(void);
+int angle_girouette(TIM_TypeDef*Timer);
