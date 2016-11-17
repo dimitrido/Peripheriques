@@ -3,11 +3,11 @@
 	#include "gpio.h"
 	#include "Timer1234.h"
 
-void ModuleReception_Init(float freqTelecommande){ //dépend de la télécommande
-	PWM_init(TIM4, '1', freqTelecommande);
+void ModuleReception_Init(float freqTelecommande){ //dÃ©pend de la tÃ©lÃ©commande
+	PWM_init(TIM4, 1, freqTelecommande);
 }
 
 
 float getDutyCycle(void){
-	return (TIM4->CCR2);
+	return ((float)TIM4->CCR2/TIM4->CCR1);
 }
