@@ -41,7 +41,7 @@ float Timer_1234_Init (TIM_TypeDef *timer, float duree){
 	timer->ARR = 0xFFFF;
 	
 	timer->PSC = CLOCK_GetTIMCLK(timer)*duree /(0xFFFF)+1;
-	}
+	
 	tempo=(float)(timer->PSC * timer->ARR)/CLOCK_GetTIMCLK(timer);
 	
 	
@@ -51,7 +51,8 @@ float Timer_1234_Init (TIM_TypeDef *timer, float duree){
 		timer->ARR =(int)inter;
 		tempo=(float)(timer->PSC * timer->ARR)/CLOCK_GetTIMCLK(timer);
 		compteur ++;
-	}	
+	}	}
+	tempo=(float)(timer->PSC * timer->ARR)/CLOCK_GetTIMCLK(timer);
 	timer->CR1 |= TIM_CR1_CEN;
 	
 return (tempo);
@@ -175,12 +176,14 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 				Timer->CCMR1 |= (0x6<<12);
 				Timer->CCR2 |= Timer->ARR /2;
 				Port_IO_Init_Output( GPIOA, 1, 1);
+				Timer->CCMR1 |= (0x1<<4);
 			}
 			else if (Voie ==3)
 			{
 				Timer->CCMR2 |= (0x6<<4);
-				Timer->CCR3 |= Timer->ARR /2;
+				Timer->CCR3 |= 0;
 				Port_IO_Init_Output( GPIOA, 2, 1);
+				Timer->CCER |= (0x1<<8);
 			}
 			else if (Voie ==4)
 			{
@@ -224,9 +227,16 @@ void PWM_init(TIM_TypeDef*Timer, char Voie, float Freq)
 		{
 			if (Voie == 1)
 			{
-				Timer->CCMR1 |= (0x6<<4);
-				Timer->CCR1 |= Timer->ARR /2;
-				Port_IO_Init_Output( GPIOB, 6, 1);
+				Timer->CCMR1 &= ~(0x2<<8);
+				Timer->CCMR1 |= 0x1;
+				Timer->CCMR1 |= (0x2<<8);
+				Timer->CCER &= ~0x2;
+				Timer->CCER |= 0x1<<5;
+				Timer->SMCR |= 0x5<<4;
+				Timer->SMCR |= 0x4;
+				Timer->CCER|= 0x11;
+				//Timer->CCR1 |= Timer->ARR /2;
+				Port_IO_Init_Input( GPIOB, 6, 1); //attention sale!!!
 			}
 			else if (Voie ==2)
 			{
@@ -348,8 +358,7 @@ void Set_duty_cycle( TIM_TypeDef*Timer, char Voie, float Duty_cycle)
 			else if (Voie ==3)
 			{
 			
-				Timer->CCER |=(0x1<<8);
-				Timer->CCR3 = (int)((float)(Timer->ARR *(Duty_cycle/100)));
+				Timer->CCR3 = (int)(Timer->ARR *(Duty_cycle/100));
 			
 			}
 			else if (Voie ==4)
