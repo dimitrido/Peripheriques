@@ -3,4 +3,7 @@
 #include "clock.h"
 #include "gpio.h"
 
-float pos_servomoteur(int angle, int anglemax, int anglemin,TIM_TypeDef*Timer, char Voie);
+
+void init_servo(TIM_TypeDef*Timer, char Voie);
+float servo(float duty,TIM_TypeDef*Timer, char Voie);
+int vent (int angle);
